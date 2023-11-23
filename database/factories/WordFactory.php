@@ -15,7 +15,7 @@ class WordFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => $this->faker->numberBetween(1, 2),
             'word_en' => $this->faker->unique->word,
             'word_ja' => $this->faker->word,
             'part_of_speech' => $this->faker->numberBetween(1, 5),

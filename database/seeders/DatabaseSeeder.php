@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call([
-            UserSeeder::class,
-            WordSeeder::class,
-        ]);
+        // $this->call([
+        //     UserSeeder::class,
+        //     WordSeeder::class,
+        // ]);
 
         // User::factory(2)->create();
         // Word::factory(100)->create();
