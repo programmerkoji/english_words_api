@@ -14,18 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    \Log::info("Laravel Log TEST!");
+// Route::get('/', function () {
+//     \Log::info("Laravel Log TEST!");
 
-    return view('welcome');
-});
+//     return view('welcome');
+// });
 
-Route::resource('words', WordController::class)
-->middleware('auth')->except(['show']);
+// Route::resource('words', WordController::class)
+// ->middleware('auth')->except(['show']);
 
-Route::prefix('words')->
-    middleware('auth')->group(function(){
-    Route::patch('answerMemoryUpdate/{word}', [WordController::class, 'answerMemoryUpdate'])->name('words.answerMemoryUpdate');
-});
+// Route::prefix('words')->
+//     middleware('auth')->group(function(){
+//     Route::patch('answerMemoryUpdate/{word}', [WordController::class, 'answerMemoryUpdate'])->name('words.answerMemoryUpdate');
+// });
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
+Route::get('/{any}', function () {
+    return view('api/words');
+})->where('any', '.*');
