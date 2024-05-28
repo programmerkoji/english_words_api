@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\WordController;
+use App\Http\Controllers\Api\LoginController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::post('login', [AuthController::class, 'login']);
+// Route::post('test/login', [LoginController::class, 'login_test']);
 
 Route::group(
     ['middleware' => 'auth:sanctum'],

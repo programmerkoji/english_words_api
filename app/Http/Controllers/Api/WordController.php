@@ -41,8 +41,8 @@ class WordController extends Controller
         $query = auth()->user()->words()->orderBy('created_at', $sort);
 
         // 記憶度
-        if (in_array($request->memory_search, ['1', '2', '3'])) {
-            $query->where('memory', $request->memory_search);
+        if (in_array($request->memorySearch, ['0', '1', '2'])) {
+            $query->where('memory', $request->memorySearch);
         }
 
         $words = $query->paginate(12);
@@ -62,6 +62,7 @@ class WordController extends Controller
             DB::beginTransaction();
             auth()->user()->words()->create($request->all());
             DB::commit();
+            return response()->json(['message' => '単語の登録に成功しました'], 200);
         } catch (\Throwable $th) {
             Log::error($th);
             DB::rollBack();
@@ -81,6 +82,7 @@ class WordController extends Controller
             DB::beginTransaction();
             $word = Word::findOrFail($id);
             $word->update($request->all());
+            return response()->json(['message' => '単語の編集に成功しました'], 200);
             DB::commit();
         } catch (\Throwable $th) {
             Log::error($th);

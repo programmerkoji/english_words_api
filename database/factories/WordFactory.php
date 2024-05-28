@@ -18,8 +18,8 @@ class WordFactory extends Factory
             'user_id' => $this->faker->numberBetween(1, 2),
             'word_en' => $this->faker->unique->word,
             'word_ja' => $this->faker->word,
-            'part_of_speech' => $this->faker->numberBetween(1, 5),
-            'memory' => $this->faker->numberBetween(1, 3),
+            'part_of_speech' => $this->faker->numberBetween(0, 4),
+            'memory' => $this->faker->numberBetween(0, 2),
             'memo' => $this->faker->text,
         ];
     }
