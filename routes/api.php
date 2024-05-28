@@ -23,10 +23,5 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [AuthController::class, 'login']);
 // Route::post('test/login', [LoginController::class, 'login_test']);
 
-Route::group(
-    ['middleware' => 'auth:sanctum'],
-    function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::apiResource('words', WordController::class)->except('show');
-    }
-);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::apiResource('words', WordController::class)->middleware('auth:sanctum')->except('show');

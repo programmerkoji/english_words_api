@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WordController extends Controller
 {
+    // git amend テスト
     public function __construct()
     {
         $this->middleware('auth');

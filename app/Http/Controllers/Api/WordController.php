@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\StoreWord;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class WordController extends Controller
 {
@@ -56,7 +55,7 @@ class WordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWord $request)
     {
         try {
             DB::beginTransaction();
@@ -67,16 +66,46 @@ class WordController extends Controller
             Log::error($th);
             DB::rollBack();
         }
+        auth()->user()->words()->create($request->all());
+
+        return redirect()
+        ->route('words.index')
+        ->with(['message' => '単語の登録をしました。',
+        'status' => 'info']);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $word = Word::findOrFail($id);
+
+        return view('words.edit', compact('word'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreWord $request, $id)
     {
         try {
             DB::beginTransaction();
@@ -88,6 +117,13 @@ class WordController extends Controller
             Log::error($th);
             DB::rollBack();
         }
+        $word = Word::findOrFail($id);
+        $word->update($request->all());
+
+        return redirect()
+        ->route('words.index')
+        ->with(['message' => '単語の編集をしました。',
+        'status' => 'info']);
     }
 
     /**
@@ -99,17 +135,21 @@ class WordController extends Controller
     public function destroy($id)
     {
         Word::findOrFail($id)->delete();
+
+        return redirect()->route('words.index')
+        ->with(['message' => '単語を削除しました。',
+        'status' => 'alert']);
     }
 
-    // public function answerMemoryUpdate(Request $request, $id)
-    // {
-    //     $word = Word::findOrFail($id);
-    //     $word->memory = $request->memory;
-    //     $word->save();
+    public function answerMemoryUpdate(Request $request, $id)
+    {
+        $word = Word::findOrFail($id);
+        $word->memory = $request->memory;
+        $word->save();
 
-    //     return redirect()
-    //     ->route('words.index')
-    //     ->with(['message' => '記憶度の編集をしました。',
-    //     'status' => 'info']);
-    // }
+        return redirect()
+        ->route('words.index')
+        ->with(['message' => '記憶度の編集をしました。',
+        'status' => 'info']);
+    }
 }
